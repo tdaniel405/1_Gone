@@ -1,0 +1,204 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+<style type="text/css">
+  body {
+	background-color: tan;
+	  
+   }
+
+</style>
+<img src="images/new9.jpeg" width="70" height="80" align ="right" />
+<center><h1>Fitness Alert</h1></center>
+
+<center><h2>Check Out</h2></center>
+
+
+<center><h2> Order Five Products Receive Sixth Free</h2></center>
+<center><img src="images/new7.jpeg" width="250" height="250" /></center>
+ <img src="images/new6.jpeg" width="272" height="248" align="center_left" />
+ <img src="images/new8.jpeg" width="272" height="248" align="right" />
+
+ 
+ 
+ </header>
+
+<!--
+Drag and drop shopping cart application.
+
+<h8>Source:  İlter, A. Drag ‘n’ Drop Shopping Cart With jQuery UI. Retrieved from the webresourcesdepot.com website: http://www.webresourcesdepot.com/drag-n-drop-shopping-cart-with-jquery-ui-tutorial/
+
+--!>
+    <meta charset="utf-8"/>
+    <title>Drag and drop shopping cart with jQuery UI</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="jquery-1.8.2.min.js"></script>
+    <script src="jquery-ui-1.9.0.custom.min.js"></script>
+</head>
+<body>
+
+
+<div class="container">
+
+
+    <section id="product">
+        <ul class="clear">
+            
+			<li data-id="1">
+                <a href="#">
+                    <img src="images/f1.jpg" alt="">
+					<h3>Choline Bitartrate</h3>
+                    <p>Brain Food</p>
+                </a>
+            </li>
+			<li data-id="1">
+                <a href="#">
+                    <img src="images/f1.jpg" alt="">
+                    <h3>L-Citrulline DL Malate 2:1</h3>
+                    <p>Fitness Recovery</p>
+                </a>
+            </li>
+            <li data-id="2">
+                <a href="#">
+                    <img src="images/f2.jpg" alt="">
+					<h3>Tribulus Terrestris PE</h3>
+                    <p>Male virility</p>
+                </a>
+            </li>
+            <li data-id="3">
+                <a href="#">
+                    <img src="images/f3.jpg" alt="">
+					 <h3>Tongkat Ali</h3>
+                    <p>Anti-aging" remedy</p>
+					
+                </a>
+            </li>
+            <li data-id="4">
+                <a href="#">
+				 <img src="images/f4.jpg" alt="">
+					<h3>Ginkgo Biloba</h3>
+                    <p>Boost memory</p>
+                </a>
+            </li>
+			<li data-id="4">
+                <a href="#">
+				 <img src="images/f4.jpg" alt="">
+					<h3>Kelp</h3>
+                    <p>Growth Hormone</p>
+                </a>
+            </li>
+			<li data-id="4">
+                <a href="#">
+				 <img src="images/f4.jpg" alt="">
+					<h3>Tumeric</h3>
+                    <p>Antioxidant</p>
+                </a>
+            </li>
+			<li data-id="4">
+                <a href="#">
+				 <img src="images/f4.jpg" alt="">
+					<h3>Chlorella Powder</h3>
+                    <p>Detoxifier</p>
+                </a>
+            </li>
+        </ul>
+  </section>
+
+
+    <aside id="sidebar">
+        <div class="basket">
+            <div class="basket_list">
+                <div class="head">
+                    <span class="name"></span>
+                    <span class="count"></span>
+                </div>
+                <ul>
+                    <!--li>
+                        <span class="name">Samsung S3 asd asdasdaf dfsdghgfg dgfg</span>
+                        <input class="count" value="1" type="text">
+                        <button class="delete">&#10005;</button>
+                    </li-->
+                </ul>
+            </div>
+        </div>
+        
+
+
+    </aside>
+</div>
+
+<script>
+    $(function () {
+
+		// jQuery UI Draggable
+		$("#product li").draggable({
+		
+			// brings the item back to its place when dragging is over
+			revert:true,
+		
+			// once the dragging starts, we decrease the opactiy of other items
+			// Appending a class as we do that with CSS
+			drag:function () {
+				$(this).addClass("active");
+				$(this).closest("#product").addClass("active");
+			},
+		
+			// removing the CSS classes once dragging is over.
+			stop:function () {
+				$(this).removeClass("active").closest("#product").removeClass("active");
+			}
+		});
+
+        // jQuery Ui Droppable
+		$(".basket").droppable({
+		
+			// The class that will be appended to the to-be-dropped-element (basket)
+			activeClass:"active",
+		
+			// The class that will be appended once we are hovering the to-be-dropped-element (basket)
+			hoverClass:"hover",
+		
+			// The acceptance of the item once it touches the to-be-dropped-element basket
+			// For different values http://api.jqueryui.com/droppable/#option-tolerance
+			tolerance:"touch",
+			drop:function (event, ui) {
+		
+				var basket = $(this),
+						move = ui.draggable,
+						itemId = basket.find("ul li[data-id='" + move.attr("data-id") + "']");
+		
+				// To increase the value by +1 if the same item is already in the basket
+				if (itemId.html() != null) {
+					itemId.find("input").val(parseInt(itemId.find("input").val()) + 1);
+				}
+				else {
+					// Add the dragged item to the basket
+					addBasket(basket, move);
+		
+					// Updating the quantity by +1" rather than adding it to the basket
+					move.find("input").val(parseInt(move.find("input").val()) + 1);
+				}
+			}
+		});
+
+        // This function runs onc ean item is added to the basket
+        function addBasket(basket, move) {
+			basket.find("ul").append('<li data-id="' + move.attr("data-id") + '">'
+					+ '<span class="name">' + move.find("h3").html() + '</span>'
+					+ '<input class="count" value="1" type="text">'
+					+ '<button class="delete">&#10005;</button>');
+		}
+
+
+        // The function that is triggered once delete button is pressed
+        $(".basket ul li button.delete").live("click", function () {
+			$(this).closest("li").remove();
+		});
+
+    });
+</script>
+
+
+</body>
+</html>
